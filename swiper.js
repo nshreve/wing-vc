@@ -44,6 +44,7 @@ quoteComponent.forEach((component) => {
   const swiper = new Swiper(component, {
     direction: "horizontal",
     loop: false,
+    grabHand: true,
     slidesPerView: perViewMobile ?? 1.25,
     spaceBetween: gap ?? 16,
     navigation: {
