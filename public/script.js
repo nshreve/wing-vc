@@ -3,6 +3,7 @@ const exact = {
   "/": homepage,
   "/about": aboutPage,
   "/companies": portfolioPage,
+  "/content": insightsPage,
 };
 
 const prefixes = [["/people/", peopleCollectionPage]];
@@ -12,6 +13,18 @@ const path = window.location.pathname.replace(/\/$/, "") || "/";
 // exact match first, then prefix match, then nothing
 const prefixHit = prefixes.find(([p]) => path.startsWith(p));
 (exact[path] || (prefixHit && prefixHit[1]) || (() => {}))();
+
+function filterAdd() {
+  const selectItem = document.querySelectorAll("[data-select='item']");
+  selectItem.forEach((i) => {
+    const select = i.querySelector("[data-select='field']");
+    const option = i.querySelectorAll("[data-select='option']");
+
+    option.forEach((o) => {
+      select.appendChild(o);
+    });
+  });
+}
 
 // global — runs everywhere
 {
@@ -282,20 +295,18 @@ function peopleCollectionPage() {
 }
 
 function portfolioPage() {
-  const selectItem = document.querySelectorAll("[data-select='item']");
-  selectItem.forEach((i) => {
-    const select = i.querySelector("[data-select='field']");
-    const option = i.querySelectorAll("[data-select='option']");
-
-    option.forEach((o) => {
-      select.appendChild(o);
-    });
-  });
+  filterAdd();
 
   const filterButton = document.querySelector("[data-filters='show']");
   const filters = document.querySelector(".c-filters_form_wrap");
-  filterButton.addEventListener("click", () => {
-    filterButton.style.display = "none";
-    filters.style.display = "block";
-  });
+  if (filterButton && filters) {
+    filterButton.addEventListener("click", () => {
+      filterButton.style.display = "none";
+      filters.style.display = "block";
+    });
+  }
+}
+
+function insightsPage() {
+  filterAdd();
 }
