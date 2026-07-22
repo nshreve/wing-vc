@@ -235,8 +235,12 @@ function aboutPage() {
   const group = component.querySelector("[data-people='group']");
   if (!group) return;
 
-  items.forEach((i) => {
-    i.style.setProperty("--margin-top", `${Math.random() * 5}rem`);
+  items.forEach((i, idx) => {
+    const [min, max] = idx % 2 === 0 ? [0, 3.4] : [3, 6];
+    i.style.setProperty(
+      "--margin-top",
+      `${min + Math.random() * (max - min)}rem`,
+    );
   });
 
   for (let n = 0; n < 2; n++) {
