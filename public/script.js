@@ -229,61 +229,23 @@ function homepage() {
 }
 
 function aboutPage() {
-  //About Parallax
-  {
-    const list = document.querySelector(".about_partners_cms_list");
-    const items = list.querySelectorAll(".about_partners_cms_item");
+  const component = document.querySelector("[data-people='container']");
+  if (!component) return;
+  const items = component.querySelectorAll("[data-people='item']");
+  const group = component.querySelector("[data-people='group']");
+  if (!group) return;
 
-    const mm = gsap.matchMedia();
+  items.forEach((i) => {
+    i.style.setProperty("--margin-top", `${Math.random() * 5}rem`);
+  });
 
-    // Desktop: 992px and up — parallax
-    mm.add("(min-width: 992px)", () => {
-      items.forEach((item, i) => {
-        const startY =
-          i % 2 === 0 ? gsap.utils.random(35, 65) : gsap.utils.random(80, 120);
-
-        const endY =
-          i % 2 === 0 ? gsap.utils.random(-25, 0) : gsap.utils.random(25, 60);
-
-        gsap.fromTo(
-          item,
-          { yPercent: startY },
-          {
-            yPercent: endY,
-            ease: "none",
-            scrollTrigger: {
-              trigger: list,
-              start: "top 125%",
-              end: "top 33%",
-              scrub: true,
-            },
-          },
-        );
-      });
-    });
-
-    // Mobile / tablet: 991px and below — individual fade + rise
-    mm.add("(max-width: 991px)", () => {
-      items.forEach((item) => {
-        gsap.fromTo(
-          item,
-          { opacity: 0, yPercent: 15 },
-          {
-            opacity: 1,
-            yPercent: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            delay: gsap.utils.random(0, 0.35), // staggered randomness
-            scrollTrigger: {
-              trigger: item,
-              start: "top 75%",
-              toggleActions: "play none none reverse",
-            },
-          },
-        );
-      });
-    });
+  for (let n = 0; n < 2; n++) {
+    component.appendChild(group.cloneNode(true));
   }
+
+  component.querySelectorAll("[data-people='group']").forEach((g) => {
+    g.style.animationPlayState = "running";
+  });
 }
 
 function peopleCollectionPage() {
